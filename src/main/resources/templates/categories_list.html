@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Categories</h2>
+    <a href="/categories/add">Add Category</a>
+    <table border="1" cellpadding="5" cellspacing="2">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Slug</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="category : ${categories}">
+                <td th:text="${category.id()}"></td>
+                <td th:text="${category.name()}"></td>
+                <td th:text="${category.slug()}"></td>
+                <td>
+                    <button>🖋</button>
+                    <button>🗑️</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div th:if="${success}" id="successDiv">Category inserted successfully</div>
+    <div th:if="${failure}" id="failureDiv">Insertion failure</div>
+
+    <script>
+        const successDiv = document.querySelector("#successDiv");
+        const failureDiv = document.querySelector("#failureDiv");
+
+        setTimeout(() => {
+            successDiv.style.display = "none";
+            failureDiv.style.display = "none";
+        }, 3000);
+
+    </script>
+</body>
+</html>
