@@ -1,6 +1,8 @@
 package dci.j24e01.OurShop.services;
 
 import dci.j24e01.OurShop.models.Category;
+import dci.j24e01.OurShop.models.Product;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -8,33 +10,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CategoryDAOImpl implements CategoryDAO {
+public class ProductDAOImpl implements ProductDAO {
+
+    @Autowired
+    CategoryDAO categoryDAO;
 
     private final Connection connection;
 
-    public CategoryDAOImpl(DBConnectionManager connectionManager) {
+    public ProductDAOImpl(DBConnectionManager connectionManager) {
         this.connection = connectionManager.getConnection();
     }
 
     @Override
-    public List<Category> getCategories() {
-        String sql = "SELECT * FROM categories";
+    public List<Product> getProducts() {
+        String sql = "SELECT * FROM products";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             System.out.println(resultSet);
 
-            List<Category> categories = new ArrayList<>();
+            List<Product> products = new ArrayList<>();
             while (resultSet.next()) {
-                Category category = new Category(
+                Product product = new Product(
                         resultSet.getLong("id"),
                         resultSet.getString("name"),
-                        resultSet.getString("slug")
+                        resultSet.getLong("category_id"),
+                        categoryDAO.getCategoryById(resultSet.getLong("category_id")),
+                        resultSet.getLong("stock")
                 );
-                categories.add(category);
+                products.add(product);
             }
-            return categories;
+            return products;
         } catch(SQLException e) {
             e.printStackTrace();
             return null;
@@ -42,19 +49,21 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    public Category getCategoryById(Long id) {
-        String sql = "SELECT * FROM categories WHERE id = ?";
+    public Product getProductById(Long id) {
+        String sql = "SELECT * FROM products WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
             preparedStatement.setLong(1, id);
-
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
 
-            return new Category(
+            resultSet.next();
+            return new Product(
                     resultSet.getLong("id"),
                     resultSet.getString("name"),
-                    resultSet.getString("slug")
+                    resultSet.getLong("category_id"),
+                    categoryDAO.getCategoryById(resultSet.getLong("category_id")),
+                    resultSet.getLong("stock")
             );
         } catch(SQLException e) {
             e.printStackTrace();
@@ -63,15 +72,21 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    public Category addCategory(Category category) {
-        String sql = "INSERT INTO categories (name, slug) VALUES (?, ?)";
+    public List<Product> searchProducts(String searchTerm) {
+        return List.of();
+    }
+
+    @Override
+    public Product addProduct(Product product) {
+        String sql = "INSERT INTO products (name, category_id, stock) VALUES (?, ?, ?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     sql,
                     Statement.RETURN_GENERATED_KEYS
             );
-            preparedStatement.setString(1, category.name());
-            preparedStatement.setString(2, category.slug());
+            preparedStatement.setString(1, product.name());
+            preparedStatement.setLong(2, product.categoryId());
+            preparedStatement.setLong(3, product.stock());
 
             int rowCount = preparedStatement.executeUpdate();
             if (rowCount != 1) {
@@ -82,7 +97,7 @@ public class CategoryDAOImpl implements CategoryDAO {
             resultSet.next();
             Long lastInsertId = resultSet.getLong(1);
 
-            return getCategoryById(lastInsertId);
+            return getProductById(lastInsertId);
         } catch(SQLException e) {
             e.printStackTrace();
             return null;
@@ -90,12 +105,12 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    public Category updateCategory(Long id, Category category) {
+    public Product updateProduct(Long id, Product product) {
         return null;
     }
 
     @Override
-    public boolean deleteCategory(Long id) {
+    public boolean deleteProduct(Long id) {
         return false;
     }
 }
