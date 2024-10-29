@@ -1,7 +1,6 @@
 package dci.j24e01.OurShop.services;
 
 import dci.j24e01.OurShop.models.Category;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;

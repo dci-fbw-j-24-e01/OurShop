@@ -8,10 +8,11 @@
     <title>Document</title>
 </head>
 <body>
+<h2>Add Product</h2>
 <form method="post" action="">
     <label>
         Name:
-        <input name="name" placeholder="Clothing Accessories">
+        <input name="name" placeholder="Toy">
     </label>
     <br>
     <label>
@@ -21,9 +22,8 @@
     <br>
     <label>
         Category:
-        <select name="category">
+        <select name="categoryId">
             <option th:each="category : ${categories}" th:value="${category.id()}" th:text="${category.name()}"></option>
-
         </select>
     </label>
     <br>
