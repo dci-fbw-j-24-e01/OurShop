@@ -2,7 +2,7 @@
 
 
 .navbar {
-    width: 100%;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -39,14 +39,10 @@
     color: #fff;
     cursor: pointer;
 }
-.container-box{
-    background: #000;
-    margin: 0 0 0 0;
-}
-.container {
 
-    width: 50%;
-    margin: 20px auto 0 auto;
+.container {
+    width: 40%;
+    margin: 30px auto 0 auto;
     justify-content: center;
     position: relative;
     display: grid;
