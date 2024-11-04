@@ -1,10 +1,8 @@
-<div th:fragment="navbar" id="navbar">
-    <header role="banner">
-
-        <nav class="navbar" role="navigation">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="/">OurShop</a>
-            </div>
+<header th:fragment="navbar" id="navbar" aria-label="Main navigation">
+    <nav class="navbar" role="navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">OurShop</a>
+        </div>
 
             <!-- Dynamically generated navigation links -->
             <div class="navbar-links">
@@ -18,10 +16,10 @@
 
             <button type="button" class="navbar-toggle" onclick="toggleNavbar()">☰</button>
         </nav>
-    </header>
 
 
     <script src="/navbar.js">     </script>
 
     <link rel="stylesheet" href="/styles.css">
-</div>
+</header>
+
