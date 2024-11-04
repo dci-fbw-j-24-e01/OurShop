@@ -26,21 +26,27 @@
                 <td th:text="${category.slug()}"></td>
                 <td>
                     <button>🖋</button>
-                    <button>🗑️</button>
+                    <form th:action="@{/categories/delete}" method="post" style="display:inline;">
+                        <input type="hidden" th:name="id" th:value="${category.id()}" />
+                        <button type="submit">🗑️</button>
+                    </form>
                 </td>
             </tr>
         </tbody>
     </table>
     <div th:if="${success}" id="successDiv">Category inserted successfully</div>
     <div th:if="${failure}" id="failureDiv">Insertion failure</div>
+    <div th:if="${deletionFailed}" id="deletionFailed">Deletion failed</div>
 
     <script>
         const successDiv = document.querySelector("#successDiv");
         const failureDiv = document.querySelector("#failureDiv");
+        const deletionFailed = document.querySelector("#deletionFailed");
 
         setTimeout(() => {
             successDiv.style.display = "none";
             failureDiv.style.display = "none";
+            deletionFailed.style.display = "none";
         }, 3000);
 
     </script>
