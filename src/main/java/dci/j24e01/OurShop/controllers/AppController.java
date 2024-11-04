@@ -15,12 +15,5 @@ public class AppController {
         return "index";
     }
 
-    @ModelAttribute("navLinks")
-    public List<NavLink> getNavLinks(){
-        return List.of(
-                new NavLink("Home", "/"),
-                new NavLink("Categories", "/categories"),
-                new NavLink("Products", "/products")
-        );
-    }
+
 }
