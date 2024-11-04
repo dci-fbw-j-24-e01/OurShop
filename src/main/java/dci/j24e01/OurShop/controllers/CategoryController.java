@@ -2,6 +2,7 @@ package dci.j24e01.OurShop.controllers;
 
 import dci.j24e01.OurShop.models.Category;
 import dci.j24e01.OurShop.services.CategoryDAO;
+import dci.j24e01.OurShop.services.CategoryDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,17 +19,25 @@ public class CategoryController {
     @Autowired
     CategoryDAO categoryDAO;
 
+    @Autowired
+    CategoryDAOImpl categoryDAOImpl;
+
     @GetMapping("/categories")
     public String list(
             @RequestParam(required = false) Boolean success,
             @RequestParam(required = false) Boolean failure,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
             Model model) {
 
-        List<Category> categories = categoryDAO.getCategories();
+        List<Category> categories = categoryDAOImpl.getCategoriesPaginated(page, size);
+        int totalPages = categoryDAOImpl.getTotalPages(size);
 
         model.addAttribute("categories", categories);
         model.addAttribute("success", success);
         model.addAttribute("failure", failure);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
 
         return "categories_list";
     }

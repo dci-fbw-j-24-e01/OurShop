@@ -1,6 +1,7 @@
 package dci.j24e01.OurShop.services;
 
 import dci.j24e01.OurShop.models.Category;
+import dci.j24e01.OurShop.models.Product;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -40,7 +41,29 @@ public class CategoryDAOImpl implements CategoryDAO {
             return null;
         }
     }
+    public List<Category> getCategoriesPaginated(int page, int size) {
+        List<Category> categories = getCategories();
+        if (categories == null) {
+            return List.of();
+        }
 
+        int fromIndex = page * size;
+        int toIndex = Math.min(fromIndex + size, categories.size());
+
+        if (fromIndex > categories.size()) {
+            return List.of();
+        }
+
+        return categories.subList(fromIndex, toIndex);
+    }
+
+    public int getTotalPages(int size) {
+        List<Category> allProducts = getCategories();
+        if (allProducts == null || allProducts.isEmpty()) {
+            return 0;
+        }
+        return (int) Math.ceil((double) allProducts.size() / size);
+    }
     @Override
     public Category getCategoryById(Long id) {
         String sql = "SELECT * FROM categories WHERE id = ?";
