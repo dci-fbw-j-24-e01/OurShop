@@ -36,11 +36,13 @@ public class CategoryDAOImpl implements CategoryDAO {
                 categories.add(category);
             }
             return categories;
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
+
+    @Override
     public List<Category> getCategoriesPaginated(int page, int size) {
         List<Category> categories = getCategories();
         if (categories == null) {
@@ -57,6 +59,7 @@ public class CategoryDAOImpl implements CategoryDAO {
         return categories.subList(fromIndex, toIndex);
     }
 
+    @Override
     public int getTotalPages(int size) {
         List<Category> allProducts = getCategories();
         if (allProducts == null || allProducts.isEmpty()) {
@@ -64,6 +67,7 @@ public class CategoryDAOImpl implements CategoryDAO {
         }
         return (int) Math.ceil((double) allProducts.size() / size);
     }
+
     @Override
     public Category getCategoryById(Long id) {
         String sql = "SELECT * FROM categories WHERE id = ?";
@@ -79,7 +83,7 @@ public class CategoryDAOImpl implements CategoryDAO {
                     resultSet.getString("name"),
                     resultSet.getString("slug")
             );
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
@@ -106,7 +110,7 @@ public class CategoryDAOImpl implements CategoryDAO {
             Long lastInsertId = resultSet.getLong(1);
 
             return getCategoryById(lastInsertId);
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }

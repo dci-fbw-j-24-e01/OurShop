@@ -21,17 +21,15 @@ public class ProductController {
     @Autowired
     CategoryDAO categoryDAO;
     @Autowired
-    private ProductDAOImpl productDAOImpl;
-    @Autowired
     ProductDAO productDAO;
 
     @GetMapping("/products")
     public String list(@RequestParam(defaultValue = "0") int page,
                        @RequestParam(defaultValue = "10") int size,
                        Model model) {
-        List<Product> products = productDAOImpl.getProductsPaginated(page, size);
+        List<Product> products = productDAO.getProductsPaginated(page, size);
 
-        int totalPages = productDAOImpl.getTotalPages(size);
+        int totalPages = productDAO.getTotalPages(size);
 
 
         model.addAttribute("products", products);

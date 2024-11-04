@@ -47,6 +47,7 @@ public class ProductDAOImpl implements ProductDAO {
             return null;
         }
     }
+    @Override
     public List<Product> getProductsPaginated(int page, int size) {
         List<Product> allProducts = getProducts();
         if (allProducts == null) {
@@ -62,7 +63,7 @@ public class ProductDAOImpl implements ProductDAO {
 
         return allProducts.subList(fromIndex, toIndex);
     }
-
+@Override
     public int getTotalPages(int size) {
         List<Product> allProducts = getProducts();
         if (allProducts == null || allProducts.isEmpty()) {

@@ -19,9 +19,6 @@ public class CategoryController {
     @Autowired
     CategoryDAO categoryDAO;
 
-    @Autowired
-    CategoryDAOImpl categoryDAOImpl;
-
     @GetMapping("/categories")
     public String list(
             @RequestParam(required = false) Boolean success,
@@ -30,8 +27,8 @@ public class CategoryController {
             @RequestParam(defaultValue = "10") int size,
             Model model) {
 
-        List<Category> categories = categoryDAOImpl.getCategoriesPaginated(page, size);
-        int totalPages = categoryDAOImpl.getTotalPages(size);
+        List<Category> categories = categoryDAO.getCategoriesPaginated(page, size);
+        int totalPages = categoryDAO.getTotalPages(size);
 
         model.addAttribute("categories", categories);
         model.addAttribute("success", success);
