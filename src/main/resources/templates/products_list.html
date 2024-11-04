@@ -6,9 +6,11 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Products</title>
 </head>
 <body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
 <h2>Products</h2>
 <a href="/products/add">Add Product</a>
 <table border="1" cellpadding="5" cellspacing="2">
