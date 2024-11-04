@@ -1,23 +1,21 @@
 <div th:fragment="navbar" id="navbar">
-    <header>
+    <header role="banner">
 
-    <nav class="navbar">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="/">OurShop</a>
-        </div>
+        <nav class="navbar" role="navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">OurShop</a>
+            </div>
 
-        <!-- Navbar Links -->
-        <div class="navbar-links">
-            <a class="navbar-item" href="/">Home</a>
-            <a class="navbar-item" href="/categories">Categories</a>
-            <a class="navbar-item" href="/products">Products</a>
-        </div>
+            <div class="navbar-links">
+                <a class="navbar-item" href="/">Home</a>
+                <a class="navbar-item" href="/categories">Categories</a>
+                <a class="navbar-item" href="/products">Products</a>
+            </div>
 
 
-        <button class="navbar-toggle" onclick="toggleNavbar()">☰</button>
-    </nav>
+            <button class="navbar-toggle" onclick="toggleNavbar()">☰</button>
+        </nav>
     </header>
-
 
 
     <script>
