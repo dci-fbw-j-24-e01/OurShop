@@ -32,11 +32,26 @@
             <button>🗑️</button>
         </td>
     </tr>
+
     </tbody>
 </table>
 <div th:if="${success}" id="successDiv">Product inserted successfully</div>
 <div th:if="${failure}" id="failureDiv">Insertion failure</div>
 
+<div>
+    <span th:text="'Page ' + (${currentPage} + 1) + ' of ' + ${totalPages}"></span>
+</div>
+
+<div>
+    <ul>
+        <li th:if="${currentPage > 0}">
+            <a th:href="@{/products(page=${currentPage - 1}, size=10)}">Previous</a>
+        </li>
+        <li th:if="${currentPage < totalPages - 1}">
+            <a th:href="@{/products(page=${currentPage + 1}, size=10)}">Next</a>
+        </li>
+    </ul>
+</div>
 <script>
     const successDiv = document.querySelector("#successDiv");
     const failureDiv = document.querySelector("#failureDiv");
