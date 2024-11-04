@@ -50,14 +50,14 @@ public class ProductDAOImpl implements ProductDAO {
     public List<Product> getProductsPaginated(int page, int size) {
         List<Product> allProducts = getProducts();
         if (allProducts == null) {
-            return List.of(); // Return empty list if there was an error
+            return List.of();
         }
 
         int fromIndex = page * size;
         int toIndex = Math.min(fromIndex + size, allProducts.size());
 
         if (fromIndex > allProducts.size()) {
-            return List.of(); // Return an empty list if the page is out of range
+            return List.of();
         }
 
         return allProducts.subList(fromIndex, toIndex);
