@@ -8,53 +8,50 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>Categories</h2>
-    <a href="/categories/add">Add Category</a>
-    <table border="1" cellpadding="5" cellspacing="2">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Slug</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="category : ${categories}">
-                <td th:text="${category.id()}"></td>
-                <td th:text="${category.name()}"></td>
-                <td th:text="${category.slug()}"></td>
-                <td>
-                    <button>🖋</button>
-                    <form th:action="@{/categories/delete}" method="post" style="display:inline;">
-                        <input type="hidden" th:name="id" th:value="${category.id()}" />
-                        <button type="submit">🗑️</button>
-                    </form>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <div th:if="${success}" id="successDiv">Category inserted successfully</div>
-    <div th:if="${failure}" id="failureDiv">Insertion failure</div>
+<h2>Categories</h2>
+<a href="/categories/add">Add Category</a>
+<table border="1" cellpadding="5" cellspacing="2">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Slug</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="category : ${categories}">
+        <td th:text="${category.id()}"></td>
+        <td th:text="${category.name()}"></td>
+        <td th:text="${category.slug()}"></td>
+        <td>
+            <button>🖋</button>
+            <a th:href="@{/categories/delete(id=${category.id()})}">🗑️</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div th:if="${success}" id="successDiv">Category inserted successfully</div>
+<div th:if="${failure}" id="failureDiv">Insertion failure</div>
 
-    <script>
-        const successDiv = document.querySelector("#successDiv");
-        const failureDiv = document.querySelector("#failureDiv");
-        const urlParams = new URLSearchParams(window.location.search);
-        const categoryDeleted = urlParams.get('categoryDeleted');
-        const deletionFailed = urlParams.get('deletionFailed');
+<script>
+    const successDiv = document.querySelector("#successDiv");
+    const failureDiv = document.querySelector("#failureDiv");
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryDeleted = urlParams.get('categoryDeleted');
+    const deletionFailed = urlParams.get('deletionFailed');
 
-        if (categoryDeleted) {
-            alert("Category deleted successfully");
-        } else if (deletionFailed) {
-            alert("Failed to delete category");
-        }
+    if (categoryDeleted) {
+        alert("Category deleted successfully");
+    } else if (deletionFailed) {
+        alert("Failed to delete category");
+    }
 
-        setTimeout(() => {
-            successDiv.style.display = "none";
-            failureDiv.style.display = "none";
-        }, 3000);
+    setTimeout(() => {
+        successDiv.style.display = "none";
+        failureDiv.style.display = "none";
+    }, 3000);
 
-    </script>
+</script>
 </body>
 </html>

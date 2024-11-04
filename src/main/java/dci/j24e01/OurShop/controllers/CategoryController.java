@@ -56,7 +56,7 @@ public class CategoryController {
         }
     }
 
-    @PostMapping("/categories/delete")
+    @GetMapping("/categories/delete")
     public String deleteCategory(@RequestParam Long id, RedirectAttributes redirectAttributes) {
         if (categoryDAO.deleteCategory(id)) {
             redirectAttributes.addAttribute("categoryDeleted", true);
