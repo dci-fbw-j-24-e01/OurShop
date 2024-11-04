@@ -91,7 +91,23 @@ public class CategoryDAOImpl implements CategoryDAO {
 
     @Override
     public Category updateCategory(Long id, Category category) {
-        return null;
+        String sql = "UPDATE categories SET name = ?, slug = ? WHERE id = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, category.name());
+            preparedStatement.setString(2, category.slug());
+            preparedStatement.setLong(3, id);
+
+            int affectedRow = preparedStatement.executeUpdate();
+            if (affectedRow != 1) {
+                return null;
+            }
+
+            return getCategoryById(id);
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
