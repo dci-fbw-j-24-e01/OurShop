@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -23,11 +24,13 @@ public class ProductController {
     ProductDAO productDAO;
 
     @GetMapping("/products")
-    public String list(Model model) {
-        List<Product> products = productDAO.getProducts();
-        model.addAttribute("products", products);
+    public ModelAndView list() {
 
-        return "products_list";
+        ModelAndView modelAndView = new ModelAndView("products_list");
+        List<Product> products = productDAO.getAllProducts();
+        modelAndView.addObject("products", products);
+
+        return modelAndView;
     }
 
     @GetMapping("/products/add")

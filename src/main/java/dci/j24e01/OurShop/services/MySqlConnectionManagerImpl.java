@@ -15,7 +15,7 @@ public class MySqlConnectionManagerImpl implements DBConnectionManager {
             return DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/our_shop",
                     "root",
-                    "12345678"
+                    "sunanda123"
             );
         } catch (SQLException e) {
             e.printStackTrace();
