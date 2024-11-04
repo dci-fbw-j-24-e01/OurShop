@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,7 +107,26 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public Product updateProduct(Long id, Product product) {
-        return null;
+        String sql = "UPDATE products SET name = ?, category_id = ?, stock = ?, updated_at = ? WHERE id = ?";
+
+
+        Product updatedProduct = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, product.name());
+            preparedStatement.setLong(2, product.categoryId());
+            preparedStatement.setLong(3, product.stock());
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+            preparedStatement.setLong(5, id);
+
+            int affected = preparedStatement.executeUpdate();
+            if(affected > 0) {
+                updatedProduct = getProductById(id);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return updatedProduct;
     }
 
     @Override

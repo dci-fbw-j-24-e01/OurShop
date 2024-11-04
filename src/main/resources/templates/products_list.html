@@ -6,8 +6,10 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
+
 <h2>Products</h2>
 <a href="/products/add">Add Product</a>
 <table border="1" cellpadding="5" cellspacing="2">
@@ -27,7 +29,9 @@
         <td th:text="${product.category().name()}"></td>
         <td th:text="${product.stock()}"></td>
         <td>
-            <button>🖋</button>
+            <a th:href="'/products/edit/' + ${product.id()}">
+                🖋
+            </a>
             <button>🗑️</button>
         </td>
     </tr>
@@ -35,14 +39,20 @@
 </table>
 <div th:if="${success}" id="successDiv">Product inserted successfully</div>
 <div th:if="${failure}" id="failureDiv">Insertion failure</div>
+<div th:if="${editSuccess}" id="editSuccessDiv">Product updated successfully</div>
+<div th:if="${editFailure}" id="editFailureDiv">Update failed</div>
 
 <script>
     const successDiv = document.querySelector("#successDiv");
     const failureDiv = document.querySelector("#failureDiv");
+    const editSuccessDiv = document.querySelector("#editSuccessDiv");
+    const editFailureDiv = document.querySelector("#editFailureDiv");
 
     setTimeout(() => {
         successDiv.style.display = "none";
         failureDiv.style.display = "none";
+        editSuccessDiv.style.display = "none";
+        editFailureDiv.style.display = "none";
     }, 3000);
 
 </script>
