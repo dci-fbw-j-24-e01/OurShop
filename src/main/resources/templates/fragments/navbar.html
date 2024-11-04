@@ -1,26 +1,32 @@
-<div th:fragment="navbar" id="navbar">
-    <nav class="navbar">
+
+<header th:fragment="navbar" id="navbar" aria-label="Main navigation">
+    <nav class="navbar" role="navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="/">OurShop</a>
         </div>
 
-        <!-- Navbar Links -->
+        <!-- Dynamically generated navigation links -->
         <div class="navbar-links">
-            <a class="navbar-item" href="/">Home</a>
-            <a class="navbar-item" href="/categories">Categories</a>
-            <a class="navbar-item" href="/products">Products</a>
+            <a th:each="link : ${navLinks}"
+               th:href="${link.url()}"
+               th:text="${link.name()}"
+               class="navbar-item">
+            </a>
         </div>
 
 
-        <button class="navbar-toggle" onclick="toggleNavbar()">☰</button>
+        <button
+                type="button"
+                class="navbar-toggle"
+                aria-expanded="false"
+                aria-controls="navbar-links"
+                onclick="toggleNavbar()">
+            ☰
+        </button>
     </nav>
-    <link rel="stylesheet" href="/class.css">
-    
 
-    <script>
-        function toggleNavbar() {
-            const links = document.querySelector('.navbar-links');
-            links.classList.toggle('active');
-        }
-    </script>
-</div>
+
+    <script src="/navbar.js">     </script>
+
+    <link rel="stylesheet" href="/styles.css">
+</header>
