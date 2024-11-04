@@ -23,7 +23,6 @@ public class CategoryController {
     public String list(
             @RequestParam(required = false) Boolean success,
             @RequestParam(required = false) Boolean failure,
-            @RequestParam(required = false) Boolean deletionFailed,
             Model model) {
 
         List<Category> categories = categoryDAO.getCategories();
@@ -31,7 +30,6 @@ public class CategoryController {
         model.addAttribute("categories", categories);
         model.addAttribute("success", success);
         model.addAttribute("failure", failure);
-        model.addAttribute("deletionFailed", deletionFailed);
 
         return "categories_list";
     }
