@@ -40,10 +40,10 @@
 <div>
     <ul>
         <li th:if="${currentPage > 0}">
-            <a th:href="@{/products(page=${currentPage - 1}, size=10)}">Previous</a>
+            <a th:href="@{/cotegories(page=${currentPage - 1}, size=10)}">Previous</a>
         </li>
         <li th:if="${currentPage < totalPages - 1}">
-            <a th:href="@{/products(page=${currentPage + 1}, size=10)}">Next</a>
+            <a th:href="@{/cotegories(page=${currentPage + 1}, size=10)}">Next</a>
         </li>
     </ul>
 </div>
