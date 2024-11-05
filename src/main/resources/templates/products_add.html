@@ -8,26 +8,28 @@
     <title>Document</title>
 </head>
 <body>
-<h2>Add Product</h2>
-<form method="post" action="">
+<h2 th:text="${product != null} ? 'Edit Product' : 'Add Product'">Add/Edit Product</h2>
+<form method="post" th:action="@{${product != null ? '/products/editingDetails/' + product.id() : '/products/add'}}">
+    <input type="hidden" name="id" th:if="${product != null}" th:value="${product.id()}">
     <label>
         Name:
-        <input name="name" placeholder="Toy">
+        <input name="name" placeholder="Toy" th:value="${product != null ? product.name() : ''}">
     </label>
     <br>
     <label>
         Stock:
-        <input name="stock" type="number" placeholder="0">
+        <input name="stock" type="number" placeholder="0" th:value="${product != null ? product.stock() : ''}">
     </label>
     <br>
     <label>
         Category:
         <select name="categoryId">
-            <option th:each="category : ${categories}" th:value="${category.id()}" th:text="${category.name()}"></option>
+            <option th:each="category : ${categories}" th:value="${category.id()}" th:text="${category.name()}"
+                    th:selected="${product != null && product.categoryId() == category.id()}"></option>
         </select>
     </label>
     <br>
-    <button>Submit</button>
+    <button th:text="${product != null} ? 'Update' : 'Submit'">Submit</button>
     <button type="reset">Reset</button>
 </form>
 
