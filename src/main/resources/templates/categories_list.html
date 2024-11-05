@@ -26,13 +26,34 @@
         <td th:text="${category.slug()}"></td>
         <td>
             <button>🖋</button>
+
+
             <a th:href="@{/categories/delete(id=${category.id()})}">🗑️</a>
+
         </td>
     </tr>
     </tbody>
 </table>
 <div th:if="${success}" id="successDiv">Category inserted successfully</div>
 <div th:if="${failure}" id="failureDiv">Insertion failure</div>
+
+<div>
+    <span th:text="'Page ' + (${currentPage} + 1) + ' of ' + ${totalPages}"></span>
+</div>
+
+<div>
+    <ul>
+        <li th:if="${currentPage > 0}">
+            <a th:href="@{/categories(page=${currentPage - 1}, size=10)}">Previous</a>
+        </li>
+        <li th:if="${currentPage < totalPages - 1}">
+            <a th:href="@{/categories(page=${currentPage + 1}, size=10)}">Next</a>
+        </li>
+    </ul>
+</div>
+<script>
+
+
 
 <script>
     const successDiv = document.querySelector("#successDiv");
@@ -51,6 +72,7 @@
         successDiv.style.display = "none";
         failureDiv.style.display = "none";
     }, 3000);
+
 
 </script>
 </body>

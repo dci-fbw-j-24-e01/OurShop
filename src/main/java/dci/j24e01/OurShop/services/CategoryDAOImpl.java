@@ -1,6 +1,7 @@
 package dci.j24e01.OurShop.services;
 
 import dci.j24e01.OurShop.models.Category;
+import dci.j24e01.OurShop.models.Product;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -35,10 +36,36 @@ public class CategoryDAOImpl implements CategoryDAO {
                 categories.add(category);
             }
             return categories;
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public List<Category> getCategoriesPaginated(int page, int size) {
+        List<Category> categories = getCategories();
+        if (categories == null) {
+            return List.of();
+        }
+
+        int fromIndex = page * size;
+        int toIndex = Math.min(fromIndex + size, categories.size());
+
+        if (fromIndex > categories.size()) {
+            return List.of();
+        }
+
+        return categories.subList(fromIndex, toIndex);
+    }
+
+    @Override
+    public int getTotalPages(int size) {
+        List<Category> allProducts = getCategories();
+        if (allProducts == null || allProducts.isEmpty()) {
+            return 0;
+        }
+        return (int) Math.ceil((double) allProducts.size() / size);
     }
 
     @Override
@@ -56,7 +83,7 @@ public class CategoryDAOImpl implements CategoryDAO {
                     resultSet.getString("name"),
                     resultSet.getString("slug")
             );
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
@@ -83,7 +110,7 @@ public class CategoryDAOImpl implements CategoryDAO {
             Long lastInsertId = resultSet.getLong(1);
 
             return getCategoryById(lastInsertId);
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }

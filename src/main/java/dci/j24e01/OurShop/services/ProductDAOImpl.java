@@ -47,7 +47,30 @@ public class ProductDAOImpl implements ProductDAO {
             return null;
         }
     }
+    @Override
+    public List<Product> getProductsPaginated(int page, int size) {
+        List<Product> allProducts = getProducts();
+        if (allProducts == null) {
+            return List.of();
+        }
 
+        int fromIndex = page * size;
+        int toIndex = Math.min(fromIndex + size, allProducts.size());
+
+        if (fromIndex > allProducts.size()) {
+            return List.of();
+        }
+
+        return allProducts.subList(fromIndex, toIndex);
+    }
+@Override
+    public int getTotalPages(int size) {
+        List<Product> allProducts = getProducts();
+        if (allProducts == null || allProducts.isEmpty()) {
+            return 0;
+        }
+        return (int) Math.ceil((double) allProducts.size() / size);
+    }
     @Override
     public Product getProductById(Long id) {
         String sql = "SELECT * FROM products WHERE id = ?";

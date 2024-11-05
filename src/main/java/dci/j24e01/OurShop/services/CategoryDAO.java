@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface CategoryDAO {
     List<Category> getCategories();
+    List<Category> getCategoriesPaginated(int page, int size);
+    int getTotalPages(int size);
 
     Category getCategoryById(Long id);
 

@@ -2,6 +2,7 @@ package dci.j24e01.OurShop.controllers;
 
 import dci.j24e01.OurShop.models.Category;
 import dci.j24e01.OurShop.services.CategoryDAO;
+import dci.j24e01.OurShop.services.CategoryDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,13 +24,18 @@ public class CategoryController {
     public String list(
             @RequestParam(required = false) Boolean success,
             @RequestParam(required = false) Boolean failure,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
             Model model) {
 
-        List<Category> categories = categoryDAO.getCategories();
+        List<Category> categories = categoryDAO.getCategoriesPaginated(page, size);
+        int totalPages = categoryDAO.getTotalPages(size);
 
         model.addAttribute("categories", categories);
         model.addAttribute("success", success);
         model.addAttribute("failure", failure);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
 
         return "categories_list";
     }
@@ -54,6 +60,7 @@ public class CategoryController {
         }
     }
 
+
     @GetMapping("/categories/delete")
     public String deleteCategory(@RequestParam Long id, RedirectAttributes redirectAttributes) {
         if (categoryDAO.deleteCategory(id)) {
@@ -64,3 +71,4 @@ public class CategoryController {
         return "redirect:/categories";
     }
 }
+

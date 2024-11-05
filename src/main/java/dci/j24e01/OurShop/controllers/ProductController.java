@@ -4,10 +4,12 @@ import dci.j24e01.OurShop.models.Category;
 import dci.j24e01.OurShop.models.Product;
 import dci.j24e01.OurShop.services.CategoryDAO;
 import dci.j24e01.OurShop.services.ProductDAO;
+import dci.j24e01.OurShop.services.ProductDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -16,19 +18,25 @@ public class ProductController {
 
     @Autowired
     CategoryDAO categoryDAO;
-
     @Autowired
     ProductDAO productDAO;
 
     @GetMapping("/products")
+
     public String list( @RequestParam(required = false) Boolean success,
                         @RequestParam(required = false) Boolean failure,
                         @RequestParam(required = false) Boolean deletedSuccess,
                         @RequestParam(required = false) Boolean deletedFailure,
+                       @RequestParam(defaultValue = "0") int page,
+                       @RequestParam(defaultValue = "10") int size,
                         Model model
     ) {
-        List<Product> products = productDAO.getProducts();
+      
+        List<Product> products = productDAO.getProductsPaginated(page, size);
+     int totalPages = productDAO.getTotalPages(size);
         model.addAttribute("products", products);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
         model.addAttribute("success", success);
         model.addAttribute("failure", failure);
         model.addAttribute("deletedSuccess", deletedSuccess);
@@ -58,6 +66,7 @@ public class ProductController {
         }
     }
 
+
     @GetMapping("/products/delete/{id}")
     public String delete(@PathVariable Long id) {
         boolean deletedProduct = productDAO.deleteProduct(id);
@@ -69,3 +78,4 @@ public class ProductController {
         }
     }
 }
+
