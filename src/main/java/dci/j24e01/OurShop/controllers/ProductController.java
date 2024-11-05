@@ -58,6 +58,7 @@ public class ProductController {
         }
     }
 
+
     @GetMapping("/products/delete/{id}")
     public String delete(@PathVariable Long id) {
         boolean deletedProduct = productDAO.deleteProduct(id);
@@ -69,3 +70,4 @@ public class ProductController {
         }
     }
 }
+

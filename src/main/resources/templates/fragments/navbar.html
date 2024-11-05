@@ -1,0 +1,32 @@
+
+<header th:fragment="navbar" id="navbar" aria-label="Main navigation">
+    <nav class="navbar" role="navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">OurShop</a>
+        </div>
+
+        <!-- Dynamically generated navigation links -->
+        <div class="navbar-links">
+            <a th:each="link : ${navLinks}"
+               th:href="${link.url()}"
+               th:text="${link.name()}"
+               class="navbar-item">
+            </a>
+        </div>
+
+
+        <button
+                type="button"
+                class="navbar-toggle"
+                aria-expanded="false"
+                aria-controls="navbar-links"
+                onclick="toggleNavbar()">
+            ☰
+        </button>
+    </nav>
+
+
+    <script src="/navbar.js">     </script>
+
+    <link rel="stylesheet" href="/styles.css">
+</header>

@@ -54,6 +54,7 @@ public class CategoryController {
         }
     }
 
+
     @GetMapping("/categories/delete")
     public String deleteCategory(@RequestParam Long id, RedirectAttributes redirectAttributes) {
         if (categoryDAO.deleteCategory(id)) {
@@ -64,3 +65,4 @@ public class CategoryController {
         return "redirect:/categories";
     }
 }
+
