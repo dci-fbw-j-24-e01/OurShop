@@ -96,6 +96,15 @@ public class CategoryDAOImpl implements CategoryDAO {
 
     @Override
     public boolean deleteCategory(Long id) {
+        String sql = "DELETE FROM categories WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setLong(1, id);
+            return preparedStatement.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 }

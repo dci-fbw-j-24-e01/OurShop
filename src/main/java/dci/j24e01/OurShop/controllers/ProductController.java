@@ -22,9 +22,19 @@ public class ProductController {
     ProductDAO productDAO;
 
     @GetMapping("/products")
-    public String list(Model model) {
+    public String list( @RequestParam(required = false) Boolean success,
+                        @RequestParam(required = false) Boolean failure,
+                        @RequestParam(required = false) Boolean deletedSuccess,
+                        @RequestParam(required = false) Boolean deletedFailure,
+                        Model model
+    ) {
         List<Product> products = productDAO.getProducts();
         model.addAttribute("products", products);
+        model.addAttribute("success", success);
+        model.addAttribute("failure", failure);
+        model.addAttribute("deletedSuccess", deletedSuccess);
+        model.addAttribute("deletedFailure", deletedFailure);
+
 
         return "products_list";
     }
@@ -74,5 +84,16 @@ public class ProductController {
 
         return "redirect:/products";
 
+    }
+
+    @GetMapping("/products/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        boolean deletedProduct = productDAO.deleteProduct(id);
+
+        if (deletedProduct) {
+            return "redirect:/products?deletedSuccess=true";
+        } else {
+            return "redirect:/products?deletedFailure=true";
+        }
     }
 }
