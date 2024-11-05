@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -33,6 +33,8 @@
 </table>
 <div th:if="${success}" id="successDiv">Category inserted successfully</div>
 <div th:if="${failure}" id="failureDiv">Insertion failure</div>
+<div th:if="${editedSuccess}" id="successDivEdit">Category updated successfully</div>
+<div th:if="${editedFailure}" id="failureDivEdit">Update failure</div>
 
 <script>
     const successDiv = document.querySelector("#successDiv");
@@ -40,6 +42,8 @@
     const urlParams = new URLSearchParams(window.location.search);
     const categoryDeleted = urlParams.get('categoryDeleted');
     const deletionFailed = urlParams.get('deletionFailed');
+    const successDivEdit = document.querySelector("#successDivEdit");
+    const failureDivEdit = document.querySelector("#failureDivEdit");
 
     if (categoryDeleted) {
         alert("Category deleted successfully");
@@ -50,6 +54,8 @@
     setTimeout(() => {
         successDiv.style.display = "none";
         failureDiv.style.display = "none";
+        successDivEdit.style.display = "none";
+        failureDivEdit.style.display = "none";
     }, 3000);
 
 </script>
