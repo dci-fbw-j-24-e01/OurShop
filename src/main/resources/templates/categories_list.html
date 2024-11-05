@@ -25,7 +25,7 @@
         <td th:text="${category.name()}"></td>
         <td th:text="${category.slug()}"></td>
         <td>
-            <button>🖋</button>
+            <a th:href="@{/categories/edit/{id}(id=${category.id()})}">🖋</a>
             <a th:href="@{/categories/delete(id=${category.id()})}">🗑️</a>
         </td>
     </tr>
