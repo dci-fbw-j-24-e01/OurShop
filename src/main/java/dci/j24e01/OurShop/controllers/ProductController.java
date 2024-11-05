@@ -27,7 +27,7 @@ public class ProductController {
                         @RequestParam(required = false) Boolean deletedFailure,
                         Model model
     ) {
-        List<Product> products = productDAO.getProducts();
+        List<Product> products = productDAO.getAllProducts();
         model.addAttribute("products", products);
         model.addAttribute("success", success);
         model.addAttribute("failure", failure);

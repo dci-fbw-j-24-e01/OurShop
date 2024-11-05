@@ -12,6 +12,7 @@ import java.util.List;
 @Component
 public class ProductDAOImpl implements ProductDAO {
 
+
     @Autowired
     CategoryDAO categoryDAO;
 
@@ -19,6 +20,42 @@ public class ProductDAOImpl implements ProductDAO {
 
     public ProductDAOImpl(DBConnectionManager connectionManager) {
         this.connection = connectionManager.getConnection();
+    }
+
+    @Override
+    public List<Product> getAllProducts() {
+
+
+        String sql = "SELECT products.id as product_id," +
+                " products.name as product_name, " +
+                "products.stock as stock," +
+                " products.category_id as category_id," +
+                " categories.name as category_name," +
+                " categories.slug as slug FROM products JOIN categories ON products.category_id = categories.id;";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            System.out.println(resultSet);
+
+            List<Product> products = new ArrayList<>();
+            while (resultSet.next()) {
+                Product product = new Product(
+                        resultSet.getLong("product_id"),
+                        resultSet.getString("product_name"),
+                        resultSet.getLong("category_id"),
+                        new Category(resultSet.getLong("category_id"),
+                                resultSet.getString("category_name"),
+                                resultSet.getString("slug")),
+                        resultSet.getLong("stock")
+                );
+                products.add(product);
+            }
+            return products;
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
