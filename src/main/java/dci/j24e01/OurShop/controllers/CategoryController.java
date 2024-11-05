@@ -55,11 +55,11 @@ public class CategoryController {
     }
 
     @GetMapping("/categories/delete")
-    public String deleteCategory(@RequestParam Long id, RedirectAttributes redirectAttributes) {
+    public String deleteCategory(@RequestParam Long id, Model model) {
         if (categoryDAO.deleteCategory(id)) {
-            redirectAttributes.addAttribute("categoryDeleted", true);
+            model.addAttribute("categoryDeleted", true);
         } else {
-            redirectAttributes.addAttribute("deletionFailed", true);
+            model.addAttribute("deletionFailed", true);
         }
         return "redirect:/categories";
     }

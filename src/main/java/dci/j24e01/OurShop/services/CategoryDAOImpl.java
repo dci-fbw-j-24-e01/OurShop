@@ -23,7 +23,6 @@ public class CategoryDAOImpl implements CategoryDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            System.out.println(resultSet);
 
             List<Category> categories = new ArrayList<>();
             while (resultSet.next()) {
