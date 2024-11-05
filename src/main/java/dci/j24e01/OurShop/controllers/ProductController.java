@@ -7,10 +7,7 @@ import dci.j24e01.OurShop.services.ProductDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,13 +21,21 @@ public class ProductController {
     ProductDAO productDAO;
 
     @GetMapping("/products")
-    public ModelAndView list() {
-
-        ModelAndView modelAndView = new ModelAndView("products_list");
+    public String list( @RequestParam(required = false) Boolean success,
+                        @RequestParam(required = false) Boolean failure,
+                        @RequestParam(required = false) Boolean deletedSuccess,
+                        @RequestParam(required = false) Boolean deletedFailure,
+                        Model model
+    ) {
         List<Product> products = productDAO.getAllProducts();
-        modelAndView.addObject("products", products);
+        model.addAttribute("products", products);
+        model.addAttribute("success", success);
+        model.addAttribute("failure", failure);
+        model.addAttribute("deletedSuccess", deletedSuccess);
+        model.addAttribute("deletedFailure", deletedFailure);
 
-        return modelAndView;
+
+        return "products_list";
     }
 
     @GetMapping("/products/add")
@@ -50,6 +55,17 @@ public class ProductController {
             return "redirect:/products?success=true";
         } else {
             return "redirect:/products?failure=true";
+        }
+    }
+
+    @GetMapping("/products/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        boolean deletedProduct = productDAO.deleteProduct(id);
+
+        if (deletedProduct) {
+            return "redirect:/products?deletedSuccess=true";
+        } else {
+            return "redirect:/products?deletedFailure=true";
         }
     }
 }

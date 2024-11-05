@@ -148,6 +148,21 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public boolean deleteProduct(Long id) {
-        return false;
+        String sql = "DELETE FROM products WHERE id = ?";
+
+        boolean isDeleted = false;
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setLong(1, id);
+            int affectedRows = preparedStatement.executeUpdate();
+
+            if (affectedRows > 0) {
+                isDeleted = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return isDeleted;
     }
 }
