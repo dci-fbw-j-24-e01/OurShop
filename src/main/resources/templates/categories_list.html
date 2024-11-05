@@ -8,6 +8,7 @@
     <title>Categories</title>
 </head>
 <body>
+
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <h2>Categories</h2>
@@ -26,25 +27,35 @@
                 <td th:text="${category.id()}"></td>
                 <td th:text="${category.name()}"></td>
                 <td th:text="${category.slug()}"></td>
-                <td>
-                    <button>🖋</button>
-                    <button>🗑️</button>
-                </td>
+                 <td>
+                     <button>🖋</button>
+                      <a th:href="@{/categories/delete(id=${category.id()})}">🗑️</a>
+                 </td>
             </tr>
         </tbody>
     </table>
     <div th:if="${success}" id="successDiv">Category inserted successfully</div>
     <div th:if="${failure}" id="failureDiv">Insertion failure</div>
 
-    <script>
-        const successDiv = document.querySelector("#successDiv");
-        const failureDiv = document.querySelector("#failureDiv");
 
-        setTimeout(() => {
-            successDiv.style.display = "none";
-            failureDiv.style.display = "none";
-        }, 3000);
+<script>
+    const successDiv = document.querySelector("#successDiv");
+    const failureDiv = document.querySelector("#failureDiv");
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryDeleted = urlParams.get('categoryDeleted');
+    const deletionFailed = urlParams.get('deletionFailed');
 
-    </script>
+    if (categoryDeleted) {
+        alert("Category deleted successfully");
+    } else if (deletionFailed) {
+        alert("Failed to delete category");
+    }
+
+    setTimeout(() => {
+        successDiv.style.display = "none";
+        failureDiv.style.display = "none";
+    }, 3000);
+
+</script>
 </body>
 </html>
