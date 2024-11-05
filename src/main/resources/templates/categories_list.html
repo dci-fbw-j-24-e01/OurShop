@@ -26,13 +26,17 @@
         <td th:text="${category.slug()}"></td>
         <td>
             <button>🖋</button>
-            <button>🗑️</button>
+
+
+            <a th:href="@{/categories/delete(id=${category.id()})}">🗑️</a>
+
         </td>
     </tr>
     </tbody>
 </table>
 <div th:if="${success}" id="successDiv">Category inserted successfully</div>
 <div th:if="${failure}" id="failureDiv">Insertion failure</div>
+
 <div>
     <span th:text="'Page ' + (${currentPage} + 1) + ' of ' + ${totalPages}"></span>
 </div>
@@ -48,13 +52,27 @@
     </ul>
 </div>
 <script>
+
+
+
+<script>
     const successDiv = document.querySelector("#successDiv");
     const failureDiv = document.querySelector("#failureDiv");
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryDeleted = urlParams.get('categoryDeleted');
+    const deletionFailed = urlParams.get('deletionFailed');
+
+    if (categoryDeleted) {
+        alert("Category deleted successfully");
+    } else if (deletionFailed) {
+        alert("Failed to delete category");
+    }
 
     setTimeout(() => {
         successDiv.style.display = "none";
         failureDiv.style.display = "none";
     }, 3000);
+
 
 </script>
 </body>

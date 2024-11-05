@@ -8,10 +8,8 @@ import dci.j24e01.OurShop.services.ProductDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -24,17 +22,26 @@ public class ProductController {
     ProductDAO productDAO;
 
     @GetMapping("/products")
-    public String list(@RequestParam(defaultValue = "0") int page,
+
+    public String list( @RequestParam(required = false) Boolean success,
+                        @RequestParam(required = false) Boolean failure,
+                        @RequestParam(required = false) Boolean deletedSuccess,
+                        @RequestParam(required = false) Boolean deletedFailure,
+                       @RequestParam(defaultValue = "0") int page,
                        @RequestParam(defaultValue = "10") int size,
-                       Model model) {
+                        Model model
+    ) {
+      
         List<Product> products = productDAO.getProductsPaginated(page, size);
-
-        int totalPages = productDAO.getTotalPages(size);
-
-
+     int totalPages = productDAO.getTotalPages(size);
         model.addAttribute("products", products);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
+        model.addAttribute("success", success);
+        model.addAttribute("failure", failure);
+        model.addAttribute("deletedSuccess", deletedSuccess);
+        model.addAttribute("deletedFailure", deletedFailure);
+
 
         return "products_list";
     }
@@ -58,4 +65,17 @@ public class ProductController {
             return "redirect:/products?failure=true";
         }
     }
+
+
+    @GetMapping("/products/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        boolean deletedProduct = productDAO.deleteProduct(id);
+
+        if (deletedProduct) {
+            return "redirect:/products?deletedSuccess=true";
+        } else {
+            return "redirect:/products?deletedFailure=true";
+        }
+    }
 }
+

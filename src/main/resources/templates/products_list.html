@@ -1,6 +1,6 @@
 
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -29,7 +29,9 @@
         <td th:text="${product.stock()}"></td>
         <td>
             <button>🖋</button>
-            <button>🗑️</button>
+            <a th:href="'/products/delete/' + ${product.id()}">
+                <button type="button">🗑️</button>
+            </a>
         </td>
     </tr>
 
@@ -37,6 +39,8 @@
 </table>
 <div th:if="${success}" id="successDiv">Product inserted successfully</div>
 <div th:if="${failure}" id="failureDiv">Insertion failure</div>
+<div th:if="${deletedSuccess}" id="successDivDelete">Product deleted successfully.</div>
+<div th:if="${deletedFailure}" id="failureDivDelete">Deletion failure.</div>
 
 <div>
     <span th:text="'Page ' + (${currentPage} + 1) + ' of ' + ${totalPages}"></span>
@@ -55,10 +59,14 @@
 <script>
     const successDiv = document.querySelector("#successDiv");
     const failureDiv = document.querySelector("#failureDiv");
+    const successDivDelete = document.querySelector("#successDivDelete");
+    const failureDivDelete = document.querySelector("#failureDivDelete");
 
     setTimeout(() => {
         successDiv.style.display = "none";
         failureDiv.style.display = "none";
+        successDivDelete.style.display = "none";
+        failureDivDelete.style.display = "none";
     }, 3000);
 
 </script>
