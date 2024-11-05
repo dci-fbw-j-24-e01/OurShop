@@ -6,15 +6,12 @@
 
 
         <div class="navbar-links" role="navigation">
-            <ul>
-                <li th:each="link : ${navLinks}">
-                    <a th:href="${link.url()}"
-                       th:text="${link.name()}"
-                       class="navbar-item"
-                       role="menuitem">
-                    </a>
-                </li>
-            </ul>
+            <a th:each="link : ${navLinks}"
+               th:href="${link.url()}"
+               th:text="${link.name()}"
+               class="navbar-item"
+               role="menuitem">
+            </a>
         </div>
 
 
