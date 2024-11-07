@@ -22,6 +22,8 @@ public class CategoryController {
     public String list(
             @RequestParam(required = false) Boolean success,
             @RequestParam(required = false) Boolean failure,
+            @RequestParam(required = false) Boolean categoryDeleted,
+            @RequestParam(required = false) Boolean deletionFailed,
             Model model) {
 
         List<Category> categories = categoryDAO.getCategories();
@@ -29,6 +31,8 @@ public class CategoryController {
         model.addAttribute("categories", categories);
         model.addAttribute("success", success);
         model.addAttribute("failure", failure);
+        model.addAttribute("categoryDeleted", categoryDeleted);
+        model.addAttribute("deletionFailed", deletionFailed);
 
         return "categories_list";
     }
@@ -54,12 +58,11 @@ public class CategoryController {
     }
 
     @GetMapping("/categories/delete")
-    public String deleteCategory(@RequestParam Long id, Model model) {
+    public String deleteCategory(@RequestParam Long id) {
         if (categoryDAO.deleteCategory(id)) {
-            model.addAttribute("categoryDeleted", true);
+            return "redirect:/categories?categoryDeleted=true";
         } else {
-            model.addAttribute("deletionFailed", true);
+            return "redirect:/categories?deletionFailed=true";
         }
-        return "redirect:/categories";
     }
 }
