@@ -33,23 +33,20 @@
 </table>
 <div th:if="${success}" id="successDiv">Category inserted successfully</div>
 <div th:if="${failure}" id="failureDiv">Insertion failure</div>
+<div th:if="${categoryDeleted}" id="categoryDeleted">Category deleted successfully</div>
+<div th:if="${deletionFailed}" id="deletionFailed">Deletion failure</div>
 
 <script>
     const successDiv = document.querySelector("#successDiv");
     const failureDiv = document.querySelector("#failureDiv");
-    const urlParams = new URLSearchParams(window.location.search);
-    const categoryDeleted = urlParams.get('categoryDeleted');
-    const deletionFailed = urlParams.get('deletionFailed');
-
-    if (categoryDeleted) {
-        alert("Category deleted successfully");
-    } else if (deletionFailed) {
-        alert("Failed to delete category");
-    }
+    const categoryDeleted = document.querySelector("#categoryDeleted");
+    const deletionFailed = document.querySelector("#deletionFailed");
 
     setTimeout(() => {
-        successDiv.style.display = "none";
-        failureDiv.style.display = "none";
+        if (successDiv) successDiv.style.display = "none";
+        if (failureDiv) failureDiv.style.display = "none";
+        if (categoryDeleted) categoryDeleted.style.display = "none";
+        if (deletionFailed) deletionFailed.style.display = "none";
     }, 3000);
 
 </script>

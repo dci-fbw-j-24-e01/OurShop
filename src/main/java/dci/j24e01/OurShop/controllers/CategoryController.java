@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -23,6 +22,8 @@ public class CategoryController {
     public String list(
             @RequestParam(required = false) Boolean success,
             @RequestParam(required = false) Boolean failure,
+            @RequestParam(required = false) Boolean categoryDeleted,
+            @RequestParam(required = false) Boolean deletionFailed,
             Model model) {
 
         List<Category> categories = categoryDAO.getCategories();
@@ -30,6 +31,8 @@ public class CategoryController {
         model.addAttribute("categories", categories);
         model.addAttribute("success", success);
         model.addAttribute("failure", failure);
+        model.addAttribute("categoryDeleted", categoryDeleted);
+        model.addAttribute("deletionFailed", deletionFailed);
 
         return "categories_list";
     }
@@ -55,12 +58,11 @@ public class CategoryController {
     }
 
     @GetMapping("/categories/delete")
-    public String deleteCategory(@RequestParam Long id, RedirectAttributes redirectAttributes) {
+    public String deleteCategory(@RequestParam Long id) {
         if (categoryDAO.deleteCategory(id)) {
-            redirectAttributes.addAttribute("categoryDeleted", true);
+            return "redirect:/categories?categoryDeleted=true";
         } else {
-            redirectAttributes.addAttribute("deletionFailed", true);
+            return "redirect:/categories?deletionFailed=true";
         }
-        return "redirect:/categories";
     }
 }
